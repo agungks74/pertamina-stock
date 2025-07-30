@@ -1,7 +1,11 @@
 import express, { type Request, Response, NextFunction } from "express";
 import cors from "cors";
 import { registerRoutes } from "./routes";
-import { log } from "./vite";
+
+// Simple logging utility
+function log(message: string) {
+  console.log(`[Server] ${message}`);
+}
 
 const app = express();
 
