@@ -1,0 +1,89 @@
+Build a dashboard web application using Next.js and Tailwind CSS that replicates the provided design exactly 1:1.
+
+Design requirements:
+
+Header & Logo:
+
+Place the Pertamina logo at the top-left.
+
+On the top-right, display:
+
+welcome, username in bold
+
+Work Title below it in smaller text
+
+A circular profile icon.
+
+Sidebar:
+
+A dark navy vertical sidebar with icons.
+
+Icons: mail (messages), clipboard (dashboard), report (summary), building (management), gear (settings).
+
+The active menu item should have a light gray background and green icon.
+
+Sidebar text:
+
+Main: National Operational Stock
+
+Submenus: Dashboard Status Monitor (active) and Summary Report.
+
+Main Content Area:
+
+Title at the top: Dashboard Status Monitor.
+
+Three horizontal status cards:
+
+Data Terminal Status
+
+Data Kilang Status
+
+Data Intransit Status
+
+Each card contains 3 sections:
+
+Submission: donut chart (with percentage & fraction, e.g., 8 of 8).
+
+Review: status with check or X icon.
+
+Approval: status with reload or X icon.
+
+Status labels:
+
+Completed (green)
+
+In Progress (orange)
+
+Not Started (red).
+
+Right-side Status Lists:
+
+Data Terminal Region Submission: List items Region 1–8 (all Completed).
+
+Data Kilang Region Submission: List items Refinery Unit 1–7 (with various statuses: Completed, In Progress, Not Started).
+
+Use colored circle indicators: green (Completed), orange (In Progress), red (Not Started).
+
+Donut Chart:
+
+Use Chart.js to display submission progress as a donut chart.
+
+Match the colors from the design: green for completed, orange for partial, gray for empty.
+
+Styling:
+
+Use Tailwind CSS for all styling.
+
+Cards must have rounded corners, shadow, proper padding, and spacing consistent with the design.
+
+Use grid or flexbox for layout.
+
+Use Heroicons or Lucide for all icons.
+
+Output requirements:
+
+Create a Next.js project with proper folder structure (components, pages, styles).
+
+Break down the UI into reusable components: Sidebar, Header, StatusCard, StatusList, DonutChart.
+
+Make the layout desktop-first (responsive optional but focus on matching the provided design exactly).
