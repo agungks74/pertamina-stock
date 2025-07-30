@@ -4,7 +4,7 @@
 
 This is a full-stack dashboard web application built to replicate a Pertamina (Indonesian oil company) operational status monitoring interface. The application displays real-time status information for terminal, kilang (refinery), and intransit operations with visual charts and status indicators. The dashboard features pixel-perfect responsive design matching the provided reference design with mobile and tablet optimizations.
 
-**Current Status**: Converting from React + Vite to Next.js + Tailwind CSS architecture as per user request.
+**Current Status**: Successfully migrated from Express.js backend to Next.js-only architecture with API routes. Updated UI with official Pertamina logo and improved mobile responsiveness.
 
 ## User Preferences
 
@@ -24,11 +24,11 @@ The application follows a monorepo structure with a clear separation between fro
 - **Build Tool**: Next.js for development and production builds
 
 ### Backend Architecture
-- **Runtime**: Node.js with Express.js server
+- **Runtime**: Next.js API Routes (App Router)
 - **Language**: TypeScript throughout
-- **API Design**: RESTful API endpoints
+- **API Design**: RESTful API endpoints via Next.js API routes
 - **Data Storage**: In-memory storage with interface for future database integration
-- **Development**: Hot reload with Vite middleware integration
+- **Development**: Next.js development server with hot reload
 
 ## Key Components
 
@@ -49,9 +49,9 @@ The application follows a monorepo structure with a clear separation between fro
 - **Smooth Animations**: Transition effects for opening/closing panels and mobile interactions
 
 ### Backend Components
-1. **Storage Layer**: Abstracted storage interface with in-memory implementation
-2. **API Routes**: RESTful endpoints for dashboard and region status data
-3. **Express Server**: HTTP server with middleware for logging and error handling
+1. **Storage Layer**: Abstracted storage interface with in-memory implementation (/lib/storage.ts)
+2. **API Routes**: Next.js API routes for dashboard and region status data (/app/api/dashboard/)
+3. **Middleware**: Next.js middleware for CORS and request handling
 
 ### Database Schema
 - **Users**: Basic user information with username, password, and work title
@@ -61,13 +61,13 @@ The application follows a monorepo structure with a clear separation between fro
 ## Data Flow
 
 1. **Client Request**: React components use TanStack Query to fetch data
-2. **API Layer**: Express routes handle HTTP requests
+2. **API Layer**: Next.js API routes handle HTTP requests
 3. **Storage Layer**: Abstract storage interface provides data access
 4. **Response**: JSON data returned to client for rendering
 
 The application uses a unidirectional data flow pattern where:
 - UI components trigger data fetches through query hooks
-- API endpoints retrieve data from storage layer
+- Next.js API routes retrieve data from storage layer
 - Components re-render automatically when data updates
 
 ## External Dependencies
@@ -82,25 +82,34 @@ The application uses a unidirectional data flow pattern where:
 - **Lucide React**: Icon library for consistent iconography
 
 ### Development Tools
-- **Vite**: Build tool with HMR support
+- **Next.js**: Full-stack React framework with built-in API routes
 - **TypeScript**: Type safety across the entire stack
-- **ESBuild**: Fast bundling for production builds
+- **TanStack Query**: Server state management and data fetching
 
 ## Deployment Strategy
 
 ### Development
-- Next.js dev server for frontend with API route proxying to Express backend
+- Single Next.js development server for frontend and API routes
 - Hot module replacement for rapid development
 - TypeScript compilation with strict type checking
 
 ### Production Build
-1. **Frontend**: Next.js builds optimized React bundle with static generation
-2. **Backend**: ESBuild bundles Node.js server to `dist/index.js`
-3. **Deployment**: Next.js handles frontend serving with Express API backend
+1. **Full Stack**: Next.js builds optimized React bundle with API routes
+2. **Static Generation**: Automatic optimization for static pages
+3. **Deployment**: Single Next.js application handles both frontend and backend
 
 ### Environment Configuration
-- Development: `NODE_ENV=development` with Vite middleware
-- Production: `NODE_ENV=production` serving static files
+- Development: `NODE_ENV=development` with Next.js development server
+- Production: `NODE_ENV=production` with optimized build
 - Database: `DATABASE_URL` environment variable for PostgreSQL connection
 
-The application is designed to be deployed on platforms like Replit, Vercel, or any Node.js hosting environment with minimal configuration required.
+The application is designed to be deployed on platforms like Replit, Vercel, or any Next.js hosting environment with minimal configuration required.
+
+## Recent Changes (July 30, 2025)
+
+- **Architecture Migration**: Successfully migrated from Express.js backend to Next.js-only architecture
+- **API Routes**: Moved all backend logic to Next.js API routes (/app/api/dashboard/)
+- **Storage Layer**: Relocated storage logic to shared library (/lib/storage.ts)
+- **Dependencies**: Removed Express-related dependencies (express, cors, @types/express)
+- **UI Updates**: Updated to official Pertamina logo and improved mobile user profile interaction
+- **Mobile UX**: Implemented clickable user profile with overlay on mobile while keeping logo always visible
