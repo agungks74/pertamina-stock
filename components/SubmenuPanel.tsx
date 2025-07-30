@@ -1,26 +1,24 @@
-'use client'
-
-import { X } from 'lucide-react';
+import { X, ChevronRight } from 'lucide-react';
 
 interface SubmenuItem {
   id: string;
   label: string;
-  href: string;
+  active?: boolean;
 }
 
 interface SubmenuPanelProps {
-  title: string;
-  items: SubmenuItem[];
   isOpen: boolean;
   onClose: () => void;
-  onItemClick: (href: string) => void;
+  title: string;
+  items: SubmenuItem[];
+  onItemClick?: (itemId: string) => void;
 }
 
 export default function SubmenuPanel({ 
-  title, 
-  items, 
   isOpen, 
   onClose, 
+  title, 
+  items, 
   onItemClick 
 }: SubmenuPanelProps) {
   return (
@@ -32,37 +30,44 @@ export default function SubmenuPanel({
           onClick={onClose}
         />
       )}
-
+      
       {/* Submenu Panel */}
       <div className={`
-        fixed top-16 left-16 bottom-0 w-64 bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out border-r border-gray-200
+        fixed top-16 left-16 bottom-0
+        w-64 bg-white shadow-xl border-r border-gray-200
+        transform transition-transform duration-300 ease-in-out z-50
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-        lg:translate-x-0
-        ${isOpen ? '' : 'lg:-translate-x-full'}
+        lg:${isOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
-        {/* Panel Header */}
-        <div className="px-4 py-4 border-b border-gray-200 bg-gray-50">
-          <div className="flex items-center justify-between">
-            <h3 className="font-semibold text-gray-800 text-sm">{title}</h3>
-            <button
-              onClick={onClose}
-              className="p-1 hover:bg-gray-200 rounded transition-colors"
-            >
-              <X className="w-4 h-4 text-gray-600" />
-            </button>
-          </div>
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 border-b border-gray-200">
+          <h3 className="text-sm font-semibold text-gray-800">{title}</h3>
+          <button
+            onClick={onClose}
+            className="p-1 hover:bg-gray-100 rounded-md transition-colors"
+          >
+            <X className="w-4 h-4 text-gray-500" />
+          </button>
         </div>
-
-        {/* Panel Content */}
-        <div className="py-2">
+        
+        {/* Menu Items */}
+        <div className="p-2">
           {items.map((item) => (
-            <button
+            <div
               key={item.id}
-              onClick={() => onItemClick(item.href)}
-              className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-100 transition-colors border-l-4 border-transparent hover:border-blue-500"
+              onClick={() => onItemClick?.(item.id)}
+              className={`
+                flex items-center justify-between p-3 rounded-lg cursor-pointer 
+                transition-colors duration-200 group
+                ${item.active 
+                  ? 'bg-gray-100 text-gray-900' 
+                  : 'text-gray-700 hover:bg-gray-50'
+                }
+              `}
             >
-              {item.label}
-            </button>
+              <span className="text-sm font-medium">{item.label}</span>
+              <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-gray-600" />
+            </div>
           ))}
         </div>
       </div>

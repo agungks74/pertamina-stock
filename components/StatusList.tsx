@@ -1,7 +1,7 @@
 interface StatusItem {
   id: string;
   name: string;
-  status: 'completed' | 'in-progress' | 'pending';
+  status: 'Completed' | 'In Progress' | 'Not Started';
 }
 
 interface StatusListProps {
@@ -10,58 +10,43 @@ interface StatusListProps {
 }
 
 export default function StatusList({ title, items }: StatusListProps) {
-  const getStatusColor = (status: string) => {
+  const getStatusColorClass = (status: string) => {
     switch (status) {
-      case 'completed':
-        return 'bg-green-500';
-      case 'in-progress':
-        return 'bg-orange-500';
-      case 'pending':
-        return 'bg-red-500';
+      case 'Completed':
+        return 'bg-status-green';
+      case 'In Progress':
+        return 'bg-status-orange';
+      case 'Not Started':
       default:
-        return 'bg-gray-500';
+        return 'bg-status-red';
     }
   };
 
-  const getStatusText = (status: string) => {
+  const getStatusTextColor = (status: string) => {
     switch (status) {
-      case 'completed':
-        return 'Completed';
-      case 'in-progress':
-        return 'In Progress';
-      case 'pending':
-        return 'Pending';
+      case 'Completed':
+        return 'text-status-green';
+      case 'In Progress':
+        return 'text-status-orange';
+      case 'Not Started':
       default:
-        return 'Unknown';
+        return 'text-status-red';
     }
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md border border-gray-200">
-      {/* Header */}
-      <div className="px-4 py-3 bg-gray-50 border-b border-gray-200 rounded-t-lg">
-        <h3 className="text-sm font-semibold text-gray-800">{title}</h3>
-      </div>
-
-      {/* List */}
-      <div className="p-0">
-        {items.length === 0 ? (
-          <div className="px-4 py-6 text-center text-gray-500 text-sm">
-            No data available
+    <div className="bg-white rounded-lg shadow-card p-5 border border-gray-100">
+      <h3 className="text-sm font-semibold text-gray-800 mb-4">{title}</h3>
+      <div className="space-y-3">
+        {items.map((item) => (
+          <div key={item.id} className="flex items-center justify-between py-1">
+            <div className="flex items-center space-x-3">
+              <div className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${getStatusColorClass(item.status)}`}></div>
+              <span className="text-xs text-gray-700 font-medium">{item.name}</span>
+            </div>
+            <span className={`text-xs font-medium ${getStatusTextColor(item.status)}`}>{item.status}</span>
           </div>
-        ) : (
-          <div className="divide-y divide-gray-100">
-            {items.map((item) => (
-              <div key={item.id} className="px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors">
-                <span className="text-sm text-gray-700 font-medium">{item.name}</span>
-                <div className="flex items-center space-x-2">
-                  <div className={`w-2 h-2 rounded-full ${getStatusColor(item.status)}`}></div>
-                  <span className="text-xs text-gray-600">{getStatusText(item.status)}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+        ))}
       </div>
     </div>
   );

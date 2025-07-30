@@ -1,23 +1,19 @@
 'use client'
 
 import { useEffect, useRef } from 'react';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Chart, ChartConfiguration, registerables } from 'chart.js';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
-
-interface ChartData {
-  label: string;
-  value: number;
-  color: string;
-}
+Chart.register(...registerables);
 
 interface DonutChartProps {
-  data: ChartData[];
+  percentage: number;
+  size?: number;
+  className?: string;
 }
 
-export default function DonutChart({ data }: DonutChartProps) {
+export default function DonutChart({ percentage, size = 80, className = "" }: DonutChartProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const chartRef = useRef<ChartJS | null>(null);
+  const chartRef = useRef<Chart | null>(null);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -30,20 +26,24 @@ export default function DonutChart({ data }: DonutChartProps) {
     const ctx = canvasRef.current.getContext('2d');
     if (!ctx) return;
 
-    chartRef.current = new ChartJS(ctx, {
+    const config: ChartConfiguration<'doughnut'> = {
       type: 'doughnut',
       data: {
-        labels: data.map(item => item.label),
         datasets: [{
-          data: data.map(item => item.value),
-          backgroundColor: data.map(item => item.color),
+          data: [percentage, 100 - percentage],
+          backgroundColor: [
+            percentage === 100 ? 'hsl(145, 63%, 42%)' : // green
+            percentage > 0 ? 'hsl(35, 91%, 51%)' : // orange
+            'hsl(220, 13%, 91%)', // gray
+            'hsl(220, 13%, 91%)' // gray for remaining
+          ],
           borderWidth: 0,
-          // cutout: '70%',
         }]
       },
       options: {
-        responsive: true,
-        maintainAspectRatio: true,
+        responsive: false,
+        maintainAspectRatio: false,
+        cutout: '60%',
         plugins: {
           legend: {
             display: false
@@ -52,24 +52,40 @@ export default function DonutChart({ data }: DonutChartProps) {
             enabled: false
           }
         },
-        elements: {
-          arc: {
-            borderWidth: 0
-          }
+        animation: {
+          duration: 0
         }
-      }
-    });
+      } as any
+    };
+
+    chartRef.current = new Chart(ctx, config);
 
     return () => {
       if (chartRef.current) {
         chartRef.current.destroy();
       }
     };
-  }, [data]);
+  }, [percentage]);
+
+  const getPercentageColor = () => {
+    if (percentage === 100) return 'text-status-green';
+    if (percentage > 0) return 'text-status-orange';
+    return 'text-gray-400';
+  };
 
   return (
-    <div className="relative w-full h-full">
-      <canvas ref={canvasRef} className="w-full h-full" />
+    <div className={`relative ${className}`} style={{ width: size, height: size }}>
+      <canvas
+        ref={canvasRef}
+        width={size}
+        height={size}
+        className="absolute inset-0"
+      />
+      <div className="absolute inset-0 flex items-center justify-center">
+        <span className={`text-xs font-bold ${getPercentageColor()}`}>
+          {percentage}%
+        </span>
+      </div>
     </div>
   );
 }

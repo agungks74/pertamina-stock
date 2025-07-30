@@ -2,12 +2,10 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
-  prefix: "",
   theme: {
     container: {
       center: true,
@@ -51,6 +49,13 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Pertamina Dashboard Colors
+        'pertamina-navy': 'hsl(210, 29%, 24%)',
+        'pertamina-bg': 'hsl(223, 47%, 97%)',
+        'status-green': 'hsl(145, 63%, 42%)',
+        'status-orange': 'hsl(35, 91%, 51%)',
+        'status-red': 'hsl(4, 76%, 57%)',
+        'sidebar-active': 'hsl(210, 18%, 30%)',
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -70,6 +75,9 @@ module.exports = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+      },
+      boxShadow: {
+        'card': '0 2px 8px rgba(0, 0, 0, 0.1)',
       },
     },
   },

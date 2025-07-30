@@ -51,7 +51,7 @@ export default function Dashboard() {
   const kilangRegions = regionStatuses?.filter(r => r.type === 'kilang') || [];
 
   return (
-    <div className="h-screen pertamina-bg">
+    <div className="h-screen bg-pertamina-bg">
       {/* Fixed Header */}
       <Header />
       

@@ -24,9 +24,9 @@
       "@/lib/*": ["./lib/*"],
       "@/hooks/*": ["./hooks/*"],
       "@/app/*": ["./app/*"],
-      "@assets/*": ["./attached_assets/*"]
+      "@/shared/*": ["./shared/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "server/**/*", "client/**/*", "shared/**/*"]
+  "exclude": ["node_modules", "server/**/*"]
 }
