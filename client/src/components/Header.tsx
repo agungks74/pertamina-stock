@@ -9,14 +9,13 @@ export default function Header({ username = "username", workTitle = "Work Title"
   return (
     <header className="fixed top-0 left-0 right-0 z-30 bg-white shadow-sm px-6 py-4 flex justify-between items-center border-b border-gray-200">
       <div className="flex items-center min-w-0 flex-1">
-        {/* Pertamina Logo - exact proportions */}
-        <div className="flex items-center space-x-1">
-          <div className="flex space-x-1">
-            <div className="w-3 h-6 bg-red-600 rounded-sm"></div>
-            <div className="w-3 h-6 bg-blue-600 rounded-sm"></div>
-            <div className="w-3 h-6 bg-green-600 rounded-sm"></div>
-          </div>
-          <span className="ml-3 font-bold text-xl text-gray-800 tracking-wide">PERTAMINA</span>
+        {/* Pertamina Logo - official SVG */}
+        <div className="flex items-center">
+          <img 
+            src="/pertamina-logo.svg" 
+            alt="Pertamina" 
+            className="h-8 w-auto object-contain"
+          />
         </div>
       </div>
       
