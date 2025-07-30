@@ -1,13 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  async rewrites() {
-    return [
-      {
-        source: '/api/dashboard/:path*',
-        destination: 'http://localhost:5001/api/dashboard/:path*',
-      },
-    ];
-  },
+  // API routes are now handled natively by Next.js
 };
 
 module.exports = nextConfig;
