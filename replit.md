@@ -2,7 +2,9 @@
 
 ## Overview
 
-This is a full-stack dashboard web application built to replicate a Pertamina (Indonesian oil company) operational status monitoring interface. The application displays real-time status information for terminal, kilang (refinery), and intransit operations with visual charts and status indicators. The dashboard now features pixel-perfect responsive design matching the provided reference design with mobile and tablet optimizations.
+This is a full-stack dashboard web application built to replicate a Pertamina (Indonesian oil company) operational status monitoring interface. The application displays real-time status information for terminal, kilang (refinery), and intransit operations with visual charts and status indicators. The dashboard features pixel-perfect responsive design matching the provided reference design with mobile and tablet optimizations.
+
+**Current Status**: Converting from React + Vite to Next.js + Tailwind CSS architecture as per user request.
 
 ## User Preferences
 
@@ -13,13 +15,13 @@ Preferred communication style: Simple, everyday language.
 The application follows a monorepo structure with a clear separation between frontend and backend components:
 
 ### Frontend Architecture
-- **Framework**: React 18 with TypeScript
+- **Framework**: Next.js 15 with React 18 and TypeScript (converted from Vite)
 - **UI Library**: Radix UI components with shadcn/ui styling system
 - **Styling**: Tailwind CSS with custom Pertamina brand colors
 - **Charts**: Chart.js for donut charts and data visualization
 - **State Management**: TanStack Query for server state management
-- **Routing**: Wouter for lightweight client-side routing
-- **Build Tool**: Vite for fast development and optimized production builds
+- **Routing**: Next.js App Router (converted from Wouter)
+- **Build Tool**: Next.js for development and production builds
 
 ### Backend Architecture
 - **Runtime**: Node.js with Express.js server
@@ -87,14 +89,14 @@ The application uses a unidirectional data flow pattern where:
 ## Deployment Strategy
 
 ### Development
-- Vite dev server for frontend with proxy to Express backend
+- Next.js dev server for frontend with API route proxying to Express backend
 - Hot module replacement for rapid development
 - TypeScript compilation with strict type checking
 
 ### Production Build
-1. **Frontend**: Vite builds optimized React bundle to `dist/public`
+1. **Frontend**: Next.js builds optimized React bundle with static generation
 2. **Backend**: ESBuild bundles Node.js server to `dist/index.js`
-3. **Deployment**: Single Node.js process serves both static files and API
+3. **Deployment**: Next.js handles frontend serving with Express API backend
 
 ### Environment Configuration
 - Development: `NODE_ENV=development` with Vite middleware
