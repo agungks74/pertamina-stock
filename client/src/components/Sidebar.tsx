@@ -1,127 +1,167 @@
 import { useState } from 'react';
-import { Mail, Clipboard, BarChart3, Building, Settings, ChevronRight, Menu, X } from 'lucide-react';
+import { Mail, Clipboard, BarChart3, Building, Settings, Menu, X } from 'lucide-react';
+import SubmenuPanel from './SubmenuPanel';
 
 interface SidebarProps {
   activeMenu?: string;
 }
 
 export default function Sidebar({ activeMenu = "Dashboard Status Monitor" }: SidebarProps) {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   const navigationIcons = [
-    { icon: Mail, active: false, label: "Messages" },
-    { icon: Clipboard, active: true, label: "Dashboard" },
-    { icon: BarChart3, active: false, label: "Reports" },
-    { icon: Building, active: false, label: "Management" },
+    { 
+      id: 'messages',
+      icon: Mail, 
+      active: false, 
+      label: "Messages",
+      submenu: {
+        title: "Messages",
+        items: [
+          { id: 'inbox', label: 'Inbox' },
+          { id: 'sent', label: 'Sent Messages' },
+          { id: 'drafts', label: 'Drafts' }
+        ]
+      }
+    },
+    { 
+      id: 'dashboard',
+      icon: Clipboard, 
+      active: true, 
+      label: "Dashboard",
+      submenu: {
+        title: "National Operational Stock",
+        items: [
+          { id: 'status-monitor', label: 'Dashboard Status Monitor', active: true },
+          { id: 'summary-report', label: 'Summary Report' }
+        ]
+      }
+    },
+    { 
+      id: 'reports',
+      icon: BarChart3, 
+      active: false, 
+      label: "Reports",
+      submenu: {
+        title: "Reports",
+        items: [
+          { id: 'daily-report', label: 'Daily Reports' },
+          { id: 'monthly-report', label: 'Monthly Reports' },
+          { id: 'annual-report', label: 'Annual Reports' }
+        ]
+      }
+    },
+    { 
+      id: 'management',
+      icon: Building, 
+      active: false, 
+      label: "Management",
+      submenu: {
+        title: "Management",
+        items: [
+          { id: 'user-management', label: 'User Management' },
+          { id: 'system-config', label: 'System Configuration' },
+          { id: 'access-control', label: 'Access Control' }
+        ]
+      }
+    },
   ];
 
-  const toggleMobile = () => setIsMobileOpen(!isMobileOpen);
-  const toggleCollapse = () => setIsCollapsed(!isCollapsed);
+  const handleIconClick = (iconId: string) => {
+    if (activeSubmenu === iconId) {
+      setActiveSubmenu(null);
+    } else {
+      setActiveSubmenu(iconId);
+    }
+  };
+
+  const handleCloseSubmenu = () => {
+    setActiveSubmenu(null);
+  };
+
+  const toggleMobileSidebar = () => {
+    setIsMobileOpen(!isMobileOpen);
+  };
+
+  const activeIcon = navigationIcons.find(icon => activeSubmenu === icon.id);
 
   return (
     <>
       {/* Mobile Menu Button */}
-      <div className="lg:hidden fixed top-4 left-4 z-50">
-        <button
-          onClick={toggleMobile}
-          className="p-2 bg-gray-800 text-white rounded-lg shadow-lg"
-        >
-          {isMobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
-      </div>
+      <button
+        onClick={toggleMobileSidebar}
+        className="lg:hidden fixed top-20 left-4 z-40 p-2 bg-gray-800 text-white rounded-lg shadow-lg"
+      >
+        {isMobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+      </button>
 
-      {/* Overlay for mobile */}
+      {/* Mobile Overlay */}
       {isMobileOpen && (
         <div 
-          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
+          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 pt-16"
           onClick={() => setIsMobileOpen(false)}
         />
       )}
 
       {/* Sidebar */}
       <div className={`
-        ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'} 
-        lg:translate-x-0 fixed lg:relative z-50 lg:z-auto transition-all duration-300 ease-in-out
-        ${isCollapsed ? 'w-16' : 'w-64'} 
-        h-full pertamina-navy text-white flex flex-col shadow-xl lg:shadow-none
+        fixed top-16 left-0 bottom-0 w-16 pertamina-navy text-white flex flex-col shadow-xl z-20
+        lg:translate-x-0 transition-transform duration-300 ease-in-out
+        ${isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
-        
-        {/* Collapse button for desktop */}
-        <div className="hidden lg:block absolute -right-3 top-20 z-10">
-          <button
-            onClick={toggleCollapse}
-            className="w-6 h-6 bg-white rounded-full shadow-md flex items-center justify-center text-gray-600 hover:bg-gray-50"
-          >
-            <ChevronRight className={`w-3 h-3 transition-transform ${isCollapsed ? 'rotate-0' : 'rotate-180'}`} />
-          </button>
-        </div>
-
         {/* Navigation Icons */}
-        <div className="p-4">
-          <div className={`${isCollapsed ? 'space-y-3' : 'space-y-4'}`}>
-            {navigationIcons.map((item, index) => {
+        <div className="p-2 pt-4">
+          <div className="space-y-3">
+            {navigationIcons.map((item) => {
               const IconComponent = item.icon;
               return (
                 <div
-                  key={index}
+                  key={item.id}
+                  onClick={() => handleIconClick(item.id)}
                   className={`
-                    ${isCollapsed ? 'p-2 justify-center' : 'p-3'} 
-                    flex items-center rounded-lg cursor-pointer transition-all duration-200
-                    ${item.active 
+                    p-2 flex items-center justify-center rounded-lg cursor-pointer 
+                    transition-all duration-200 group
+                    ${item.active || activeSubmenu === item.id
                       ? 'bg-gray-600 bg-opacity-60' 
                       : 'hover:bg-gray-700 hover:bg-opacity-60'
                     }
                   `}
-                  title={isCollapsed ? item.label : undefined}
+                  title={item.label}
                 >
                   <IconComponent 
                     className={`
-                      ${isCollapsed ? 'w-5 h-5' : 'w-6 h-6'} 
+                      w-6 h-6 
                       ${item.active ? 'text-green-400' : 'text-white'}
                     `} 
                   />
-                  {!isCollapsed && (
-                    <span className="ml-3 text-sm font-medium">{item.label}</span>
-                  )}
                 </div>
               );
             })}
           </div>
         </div>
         
-        {/* Menu Content */}
-        {!isCollapsed && (
-          <div className="flex-1 px-4 py-2">
-            <div className="mb-6">
-              <h3 className="text-xs font-semibold mb-3 text-gray-300 uppercase tracking-wider">
-                National Operational Stock
-              </h3>
-              <div className="space-y-1">
-                <div className="flex items-center justify-between p-3 bg-gray-600 bg-opacity-60 rounded-lg">
-                  <span className="text-sm font-medium">{activeMenu}</span>
-                  <ChevronRight className="w-4 h-4 text-gray-300" />
-                </div>
-                <div className="flex items-center justify-between p-3 hover:bg-gray-700 hover:bg-opacity-60 rounded-lg cursor-pointer transition-all duration-200">
-                  <span className="text-sm">Summary Report</span>
-                  <ChevronRight className="w-4 h-4 text-gray-300" />
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-        
         {/* Settings at bottom */}
-        <div className="p-4 mt-auto border-t border-gray-600 border-opacity-30">
-          <div className={`
-            ${isCollapsed ? 'p-2 justify-center' : 'p-3'} 
-            flex items-center hover:bg-gray-700 hover:bg-opacity-60 rounded-lg cursor-pointer transition-all duration-200
-          `}>
-            <Settings className={`${isCollapsed ? 'w-5 h-5' : 'w-6 h-6'} text-white`} />
-            {!isCollapsed && <span className="ml-3 text-sm">Settings</span>}
+        <div className="p-2 mt-auto border-t border-gray-600 border-opacity-30">
+          <div className="p-2 flex items-center justify-center hover:bg-gray-700 hover:bg-opacity-60 rounded-lg cursor-pointer transition-all duration-200">
+            <Settings className="w-6 h-6 text-white" />
           </div>
         </div>
       </div>
+
+      {/* Submenu Panel */}
+      {activeIcon && (
+        <SubmenuPanel
+          isOpen={activeSubmenu !== null}
+          onClose={handleCloseSubmenu}
+          title={activeIcon.submenu.title}
+          items={activeIcon.submenu.items}
+          onItemClick={(itemId) => {
+            console.log('Selected item:', itemId);
+            // Handle submenu item selection here
+          }}
+        />
+      )}
     </>
   );
 }

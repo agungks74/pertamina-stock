@@ -55,19 +55,19 @@ export default function StatusCard({
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 border border-gray-100">
-      <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-4 sm:mb-5">{title}</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
+    <div className="bg-white rounded-lg shadow-md p-6 border border-gray-100">
+      <h3 className="text-lg font-semibold text-gray-800 mb-5">{title}</h3>
+      <div className="grid grid-cols-3 gap-8">
         <div className="text-center">
-          <h4 className="text-sm font-medium text-gray-600 mb-3 sm:mb-4">Submission</h4>
-          <div className="flex justify-center mb-2 sm:mb-3">
+          <h4 className="text-sm font-medium text-gray-600 mb-4">Submission</h4>
+          <div className="flex justify-center mb-3">
             <DonutChart percentage={percentage} size={68} />
           </div>
           <div className="text-xs text-gray-600 font-medium">{submissionCompleted} of {submissionTotal}</div>
         </div>
         <div className="text-center">
-          <h4 className="text-sm font-medium text-gray-600 mb-3 sm:mb-4">Review</h4>
-          <div className="w-[68px] h-[68px] mx-auto mb-2 sm:mb-3 flex items-center justify-center">
+          <h4 className="text-sm font-medium text-gray-600 mb-4">Review</h4>
+          <div className="w-[68px] h-[68px] mx-auto mb-3 flex items-center justify-center">
             <div className={`w-12 h-12 rounded-full flex items-center justify-center ${getStatusColor(reviewStatus)}`}>
               {getStatusIcon(reviewStatus)}
             </div>
@@ -75,8 +75,8 @@ export default function StatusCard({
           <div className={`text-xs font-medium ${getStatusTextColor(reviewStatus)}`}>{reviewStatus}</div>
         </div>
         <div className="text-center">
-          <h4 className="text-sm font-medium text-gray-600 mb-3 sm:mb-4">Approval</h4>
-          <div className="w-[68px] h-[68px] mx-auto mb-2 sm:mb-3 flex items-center justify-center">
+          <h4 className="text-sm font-medium text-gray-600 mb-4">Approval</h4>
+          <div className="w-[68px] h-[68px] mx-auto mb-3 flex items-center justify-center">
             <div className={`w-12 h-12 rounded-full flex items-center justify-center ${getStatusColor(approvalStatus)}`}>
               {getStatusIcon(approvalStatus)}
             </div>

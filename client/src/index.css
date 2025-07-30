@@ -121,3 +121,19 @@
     margin-top: 1rem;
   }
 }
+
+/* Mobile responsive adjustments for new layout */
+@media (max-width: 1024px) {
+  .main-content-mobile {
+    margin-left: 0 !important;
+    padding-top: 4rem;
+  }
+  
+  .sidebar-mobile {
+    transform: translateX(-100%);
+  }
+  
+  .sidebar-mobile.open {
+    transform: translateX(0);
+  }
+}

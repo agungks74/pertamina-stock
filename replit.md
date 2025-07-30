@@ -31,18 +31,20 @@ The application follows a monorepo structure with a clear separation between fro
 ## Key Components
 
 ### Frontend Components
-1. **Header**: Displays Pertamina branding, user welcome message, and profile (responsive with mobile optimizations)
-2. **Sidebar**: Navigation menu with icons and hierarchical structure (collapsible with mobile overlay)
-3. **StatusCard**: Reusable cards showing submission progress, review, and approval status (responsive grid layout)
-4. **DonutChart**: Custom Chart.js implementation for progress visualization (fixed sizing)
-5. **StatusList**: Lists of regional statuses with color-coded indicators (mobile-friendly spacing)
+1. **Header**: Fixed-position header spanning full width with Pertamina branding and user profile
+2. **Sidebar**: Icon-only vertical navigation bar with click-to-expand functionality
+3. **SubmenuPanel**: Slide-out panels showing submenu items with smooth animations
+4. **StatusCard**: Reusable cards showing submission progress, review, and approval status
+5. **DonutChart**: Custom Chart.js implementation for progress visualization
+6. **StatusList**: Lists of regional statuses with color-coded indicators
 
 ### Responsive Design Features
-- **Mobile-First**: Sidebar transforms to overlay with hamburger menu on mobile
-- **Collapsible Sidebar**: Desktop sidebar can collapse to icon-only view
-- **Adaptive Layout**: 3-column desktop layout stacks vertically on mobile/tablet
-- **Flexible Cards**: Status cards adapt from 3-column to single-column on small screens
-- **Optimized Typography**: Responsive text sizing and spacing across breakpoints
+- **Fixed Header**: Header spans full width and remains fixed at top of viewport
+- **Icon-Only Sidebar**: Vertical sidebar shows only navigation icons with slide-out submenus
+- **Slide-Out Panels**: Clicking icons reveals submenu panels that slide from right of sidebar
+- **Mobile Overlay**: On small screens, sidebar and submenus overlay content with backdrop
+- **Adaptive Layout**: 3-column desktop layout adapts for various screen sizes
+- **Smooth Animations**: Transition effects for opening/closing panels and mobile interactions
 
 ### Backend Components
 1. **Storage Layer**: Abstracted storage interface with in-memory implementation
