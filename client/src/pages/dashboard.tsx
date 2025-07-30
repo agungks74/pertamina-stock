@@ -37,22 +37,23 @@ export default function Dashboard() {
     <div className="flex h-screen pertamina-bg">
       <Sidebar />
       
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col lg:ml-0 ml-0">
         <Header />
         
-        <main className="flex-1 p-6 overflow-auto">
+        <main className="flex-1 p-4 lg:p-6 overflow-auto">
           {/* Breadcrumb */}
-          <div className="flex items-center space-x-2 text-sm text-gray-600 mb-6">
+          <div className="flex items-center space-x-2 text-sm text-gray-600 mb-4 lg:mb-6">
             <Home className="w-4 h-4" />
             <span>Dashboard Status Monitor</span>
           </div>
 
           {/* Page Title */}
-          <h1 className="text-2xl font-bold text-gray-800 mb-6">Dashboard Status Monitor</h1>
+          <h1 className="text-xl lg:text-2xl font-bold text-gray-800 mb-4 lg:mb-6">Dashboard Status Monitor</h1>
 
-          <div className="grid grid-cols-3 gap-6">
+          {/* Responsive Layout */}
+          <div className="space-y-6 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-6">
             {/* Main Status Cards Column */}
-            <div className="col-span-2 space-y-6">
+            <div className="lg:col-span-2 space-y-4 lg:space-y-6">
               {terminalStatus && (
                 <StatusCard
                   title="Data Terminal Status"
@@ -85,7 +86,7 @@ export default function Dashboard() {
             </div>
 
             {/* Right Sidebar - Status Lists */}
-            <div className="space-y-6">
+            <div className="space-y-4 lg:space-y-6">
               <StatusList
                 title="Data Terminal Region Submission"
                 items={terminalRegions.map(r => ({

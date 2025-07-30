@@ -31,6 +31,7 @@
   --status-orange: hsl(35, 91%, 51%);
   --status-red: hsl(4, 76%, 57%);
   --sidebar-active: hsl(210, 18%, 30%);
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .dark {
@@ -100,4 +101,23 @@
 
 .sidebar-active {
   background-color: var(--sidebar-active);
+}
+
+/* Responsive utilities */
+@media (max-width: 1024px) {
+  .lg\:ml-0 {
+    margin-left: 0 !important;
+  }
+}
+
+/* Custom card shadows */
+.shadow-md {
+  box-shadow: var(--card-shadow);
+}
+
+/* Better mobile spacing */
+@media (max-width: 768px) {
+  .mobile-stack > * + * {
+    margin-top: 1rem;
+  }
 }

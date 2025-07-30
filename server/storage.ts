@@ -116,14 +116,26 @@ export class MemStorage implements IStorage {
 
   async createDashboardStatus(status: InsertDashboardStatus): Promise<DashboardStatus> {
     const id = randomUUID();
-    const dashboardStatus: DashboardStatus = { ...status, id };
+    const dashboardStatus: DashboardStatus = { 
+      id,
+      type: status.type,
+      submissionCompleted: status.submissionCompleted ?? 0,
+      submissionTotal: status.submissionTotal ?? 0,
+      reviewStatus: status.reviewStatus ?? "Not Started",
+      approvalStatus: status.approvalStatus ?? "Not Started"
+    };
     this.dashboardStatuses.set(id, dashboardStatus);
     return dashboardStatus;
   }
 
   async createRegionStatus(status: InsertRegionStatus): Promise<RegionStatus> {
     const id = randomUUID();
-    const regionStatus: RegionStatus = { ...status, id };
+    const regionStatus: RegionStatus = { 
+      id,
+      type: status.type,
+      name: status.name,
+      status: status.status ?? "Not Started"
+    };
     this.regionStatuses.set(id, regionStatus);
     return regionStatus;
   }

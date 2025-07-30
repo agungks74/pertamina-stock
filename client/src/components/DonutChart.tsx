@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { Chart, ChartConfiguration, registerables } from 'chart.js';
+import { Chart, ChartConfiguration, registerables, DoughnutController } from 'chart.js';
 
 Chart.register(...registerables);
 
@@ -24,7 +24,7 @@ export default function DonutChart({ percentage, size = 80, className = "" }: Do
     const ctx = canvasRef.current.getContext('2d');
     if (!ctx) return;
 
-    const config: ChartConfiguration = {
+    const config: ChartConfiguration<'doughnut'> = {
       type: 'doughnut',
       data: {
         datasets: [{
@@ -49,8 +49,11 @@ export default function DonutChart({ percentage, size = 80, className = "" }: Do
           tooltip: {
             enabled: false
           }
+        },
+        animation: {
+          duration: 0
         }
-      }
+      } as any
     };
 
     chartRef.current = new Chart(ctx, config);

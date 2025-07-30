@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a full-stack dashboard web application built to replicate a Pertamina (Indonesian oil company) operational status monitoring interface. The application displays real-time status information for terminal, kilang (refinery), and intransit operations with visual charts and status indicators.
+This is a full-stack dashboard web application built to replicate a Pertamina (Indonesian oil company) operational status monitoring interface. The application displays real-time status information for terminal, kilang (refinery), and intransit operations with visual charts and status indicators. The dashboard now features pixel-perfect responsive design matching the provided reference design with mobile and tablet optimizations.
 
 ## User Preferences
 
@@ -31,11 +31,18 @@ The application follows a monorepo structure with a clear separation between fro
 ## Key Components
 
 ### Frontend Components
-1. **Header**: Displays Pertamina branding, user welcome message, and profile
-2. **Sidebar**: Navigation menu with icons and hierarchical structure
-3. **StatusCard**: Reusable cards showing submission progress, review, and approval status
-4. **DonutChart**: Custom Chart.js implementation for progress visualization
-5. **StatusList**: Lists of regional statuses with color-coded indicators
+1. **Header**: Displays Pertamina branding, user welcome message, and profile (responsive with mobile optimizations)
+2. **Sidebar**: Navigation menu with icons and hierarchical structure (collapsible with mobile overlay)
+3. **StatusCard**: Reusable cards showing submission progress, review, and approval status (responsive grid layout)
+4. **DonutChart**: Custom Chart.js implementation for progress visualization (fixed sizing)
+5. **StatusList**: Lists of regional statuses with color-coded indicators (mobile-friendly spacing)
+
+### Responsive Design Features
+- **Mobile-First**: Sidebar transforms to overlay with hamburger menu on mobile
+- **Collapsible Sidebar**: Desktop sidebar can collapse to icon-only view
+- **Adaptive Layout**: 3-column desktop layout stacks vertically on mobile/tablet
+- **Flexible Cards**: Status cards adapt from 3-column to single-column on small screens
+- **Optimized Typography**: Responsive text sizing and spacing across breakpoints
 
 ### Backend Components
 1. **Storage Layer**: Abstracted storage interface with in-memory implementation
