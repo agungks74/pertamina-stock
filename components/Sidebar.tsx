@@ -1,151 +1,163 @@
-'use client'
+'use client';
 
-import { useState } from 'react';
-import { Mail, Clipboard, BarChart3, Building, Settings, Menu, X } from 'lucide-react';
-import SubmenuPanel from './SubmenuPanel';
+import { useState, useEffect } from 'react';
+import { Settings } from 'lucide-react';
+import MenuItem from './MenuItem';
+import SubMenuWrapper from './SubMenuWrapper';
+
+// Navigation data structure with SVG icons
+const navigationIcons = [
+  {
+    id: 'mail',
+    iconSrc: '/designs/components/menu-icons/Mail.svg',
+    label: 'Mail',
+    active: false,
+    submenu: {
+      title: 'Mail',
+      items: [
+        { id: 'inbox', label: 'Inbox', active: true },
+        { id: 'sent', label: 'Sent Items', active: false },
+        { id: 'drafts', label: 'Drafts', active: false },
+        { id: 'spam', label: 'Spam', active: false },
+        { id: 'trash', label: 'Trash', active: false }
+      ]
+    }
+  },
+  {
+    id: 'iml',
+    iconSrc: '/designs/components/menu-icons/IML.svg',
+    label: 'IML',
+    active: true,
+    submenu: {
+      title: 'IML Operations',
+      items: [
+        { id: 'terminal', label: 'Terminal', active: false },
+        { id: 'kilang', label: 'Kilang', active: false },
+        { id: 'intransit', label: 'In Transit', active: false }
+      ]
+    }
+  },
+  {
+    id: 'ct',
+    iconSrc: '/designs/components/menu-icons/C&T.svg',
+    label: 'C&T',
+    active: false,
+    submenu: {
+      title: 'Construction & Technology',
+      items: [
+        { id: 'projects', label: 'Projects', active: false },
+        { id: 'maintenance', label: 'Maintenance', active: false }
+      ]
+    }
+  },
+  {
+    id: 'rp',
+    iconSrc: '/designs/components/menu-icons/R&P.svg',
+    label: 'R&P',
+    active: false,
+    submenu: {
+      title: 'Research & Planning',
+      items: [
+        { id: 'research', label: 'Research', active: false },
+        { id: 'planning', label: 'Planning', active: false }
+      ]
+    }
+  },
+  {
+    id: 'stock',
+    iconSrc: '/designs/components/menu-icons/Stock.svg',
+    label: 'Stock',
+    active: false,
+    submenu: {
+      title: 'Stock Management',
+      items: [
+        { id: 'inventory', label: 'Inventory', active: false },
+        { id: 'orders', label: 'Orders', active: false }
+      ]
+    }
+  }
+];
 
 interface SidebarProps {
-  activeMenu?: string;
+  isMobileOpen?: boolean;
+  onMobileToggle?: () => void;
 }
 
-export default function Sidebar({ activeMenu = "Dashboard Status Monitor" }: SidebarProps) {
+export default function Sidebar({ isMobileOpen = false, onMobileToggle }: SidebarProps) {
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
-
-  const navigationIcons = [
-    { 
-      id: 'messages',
-      icon: Mail, 
-      active: false, 
-      label: "Messages",
-      submenu: {
-        title: "Messages",
-        items: [
-          { id: 'inbox', label: 'Inbox' },
-          { id: 'sent', label: 'Sent Messages' },
-          { id: 'drafts', label: 'Drafts' }
-        ]
-      }
-    },
-    { 
-      id: 'dashboard',
-      icon: Clipboard, 
-      active: true, 
-      label: "Dashboard",
-      submenu: {
-        title: "National Operational Stock",
-        items: [
-          { id: 'status-monitor', label: 'Dashboard Status Monitor', active: true },
-          { id: 'summary-report', label: 'Summary Report' }
-        ]
-      }
-    },
-    { 
-      id: 'reports',
-      icon: BarChart3, 
-      active: false, 
-      label: "Reports",
-      submenu: {
-        title: "Reports",
-        items: [
-          { id: 'daily-report', label: 'Daily Reports' },
-          { id: 'monthly-report', label: 'Monthly Reports' },
-          { id: 'annual-report', label: 'Annual Reports' }
-        ]
-      }
-    },
-    { 
-      id: 'management',
-      icon: Building, 
-      active: false, 
-      label: "Management",
-      submenu: {
-        title: "Management",
-        items: [
-          { id: 'user-management', label: 'User Management' },
-          { id: 'system-config', label: 'System Configuration' },
-          { id: 'access-control', label: 'Access Control' }
-        ]
-      }
-    },
-  ];
+  const [activeIcon, setActiveIcon] = useState(navigationIcons.find(icon => icon.active) || null);
 
   const handleIconClick = (iconId: string) => {
-    if (activeSubmenu === iconId) {
-      setActiveSubmenu(null);
-    } else {
-      setActiveSubmenu(iconId);
+    const clickedIcon = navigationIcons.find(icon => icon.id === iconId);
+    
+    if (clickedIcon) {
+      // Toggle submenu
+      if (activeSubmenu === iconId) {
+        setActiveSubmenu(null);
+        setActiveIcon(null);
+      } else {
+        setActiveSubmenu(iconId);
+        setActiveIcon(clickedIcon);
+      }
     }
   };
 
   const handleCloseSubmenu = () => {
     setActiveSubmenu(null);
+    setActiveIcon(null);
   };
 
-  const toggleMobileSidebar = () => {
-    setIsMobileOpen(!isMobileOpen);
-  };
+  // Close submenu when clicking outside on mobile
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (isMobileOpen && activeSubmenu) {
+        const target = event.target as Element;
+        if (!target.closest('.sidebar-container') && !target.closest('.submenu-panel')) {
+          handleCloseSubmenu();
+        }
+      }
+    };
 
-  const activeIcon = navigationIcons.find(icon => activeSubmenu === icon.id);
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [isMobileOpen, activeSubmenu]);
 
   return (
     <>
-      {/* Mobile Menu Button */}
-      <button
-        onClick={toggleMobileSidebar}
-        className="lg:hidden fixed top-20 left-4 z-40 p-2 bg-gray-800 text-white rounded-lg shadow-lg"
-      >
-        {isMobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-      </button>
-
-      {/* Mobile Overlay */}
+      {/* Mobile backdrop */}
       {isMobileOpen && (
         <div 
-          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 pt-16"
-          onClick={() => setIsMobileOpen(false)}
+          className="fixed inset-0 bg-black bg-opacity-50 z-10 lg:hidden"
+          onClick={onMobileToggle}
         />
       )}
 
       {/* Sidebar */}
       <div className={`
-        fixed top-16 left-0 bottom-0 w-16 bg-pertamina-navy text-white flex flex-col shadow-xl z-20
+        sidebar-container fixed top-16 left-0 bottom-0 w-20 bg-pertamina-primary text-white flex flex-col shadow-xl z-20
         lg:translate-x-0 transition-transform duration-300 ease-in-out
         ${isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
         {/* Navigation Icons */}
-        <div className="p-2 pt-4">
+        <div className="p-4">
           <div className="space-y-3">
-            {navigationIcons.map((item) => {
-              const IconComponent = item.icon;
-              return (
-                <div
-                  key={item.id}
-                  onClick={() => handleIconClick(item.id)}
-                  className={`
-                    p-2 flex items-center justify-center rounded-lg cursor-pointer 
-                    transition-all duration-200 group
-                    ${item.active || activeSubmenu === item.id
-                      ? 'bg-gray-600 bg-opacity-60' 
-                      : 'hover:bg-gray-700 hover:bg-opacity-60'
-                    }
-                  `}
-                  title={item.label}
-                >
-                  <IconComponent 
-                    className={`
-                      w-6 h-6 
-                      ${item.active ? 'text-green-400' : 'text-white'}
-                    `} 
-                  />
-                </div>
-              );
-            })}
+            {navigationIcons.map((item) => (
+              <MenuItem
+                key={item.id}
+                id={item.id}
+                iconSrc={item.iconSrc}
+                label={item.label}
+                isActive={item.active || activeSubmenu === item.id}
+                onClick={handleIconClick}
+                submenu={item.submenu}
+              />
+            ))}
           </div>
         </div>
         
         {/* Settings at bottom */}
-        <div className="p-2 mt-auto border-t border-gray-600 border-opacity-30">
-          <div className="p-2 flex items-center justify-center hover:bg-gray-700 hover:bg-opacity-60 rounded-lg cursor-pointer transition-all duration-200">
+        <div className="p-4 mt-auto border-t border-gray-600 border-opacity-30">
+          <div className="w-[67px] h-[61px] p-[7px] flex items-center justify-center hover:bg-gray-700 hover:bg-opacity-60 rounded-[15px] cursor-pointer transition-all duration-200">
             <Settings className="w-6 h-6 text-white" />
           </div>
         </div>
@@ -153,7 +165,7 @@ export default function Sidebar({ activeMenu = "Dashboard Status Monitor" }: Sid
 
       {/* Submenu Panel */}
       {activeIcon && (
-        <SubmenuPanel
+        <SubMenuWrapper
           isOpen={activeSubmenu !== null}
           onClose={handleCloseSubmenu}
           title={activeIcon.submenu.title}

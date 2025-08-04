@@ -1,3 +1,5 @@
 {
+  "/api/dashboard/status/route": "app/api/dashboard/status/route.js",
+  "/api/dashboard/regions/route": "app/api/dashboard/regions/route.js",
   "/page": "app/page.js"
 }

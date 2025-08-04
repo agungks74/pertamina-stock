@@ -2,7 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { Home } from 'lucide-react';
-import Header from '@/components/Header';
+import TopBar from '@/components/TopBar';
 import Sidebar from '@/components/Sidebar';
 import StatusCard from '@/components/StatusCard';
 import StatusList from '@/components/StatusList';
@@ -53,7 +53,7 @@ export default function Dashboard() {
   return (
     <div className="h-screen bg-pertamina-bg">
       {/* Fixed Header */}
-      <Header />
+      <TopBar username="Pertamina User" workTitle="Operations Manager" />
       
       {/* Main Layout */}
       <div className="flex pt-16 h-screen">

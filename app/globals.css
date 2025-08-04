@@ -66,6 +66,12 @@
   }
 }
 
+/* Import Custom Fonts for Pertamina Dashboard */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;600;700&display=swap');
+
 /* Custom Pertamina Dashboard Styles */
 .pertamina-navy {
   background-color: var(--pertamina-navy);
@@ -101,6 +107,23 @@
 
 .sidebar-active {
   background-color: var(--sidebar-active);
+}
+
+/* Typography Classes */
+.font-inter {
+  font-family: 'Inter', sans-serif;
+}
+
+.font-open-sans {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.font-oxygen {
+  font-family: 'Oxygen', sans-serif;
+}
+
+.font-mulish {
+  font-family: 'Mulish', sans-serif;
 }
 
 /* Responsive utilities */
